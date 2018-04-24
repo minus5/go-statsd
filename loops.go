@@ -101,6 +101,8 @@ RECONNECT:
 					_ = sock.Close()
 					goto WAIT
 				}
+				atomic.AddInt64(&c.sentPackets, 1)
+				atomic.AddInt64(&c.sentBytes, int64(len(buf)))
 			}
 
 			// return buffer to the pool

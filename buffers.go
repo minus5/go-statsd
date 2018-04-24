@@ -58,6 +58,7 @@ func (c *Client) flushBuf(length int) {
 		// flush failed, we lost some data
 		atomic.AddInt64(&c.lostPacketsPeriod, 1)
 		atomic.AddInt64(&c.lostPacketsOverall, 1)
+		atomic.AddInt64(&c.lostBytes, int64(len(sendBuf)))
 	}
 
 	c.saveQueueStats()
