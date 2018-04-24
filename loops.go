@@ -109,6 +109,9 @@ RECONNECT:
 			default:
 				// pool is full, let GC handle the buf
 			}
+
+			c.saveQueueStats()
+
 		case <-reconnectC:
 			_ = sock.Close()
 			goto RECONNECT

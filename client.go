@@ -48,6 +48,7 @@ type Client struct {
 	shutdownWg sync.WaitGroup
 
 	lostPacketsPeriod, lostPacketsOverall int64
+	sendQueueLen, bufPoolLen              int64
 }
 
 // NewClient creates new statsd client and starts background processing
@@ -112,6 +113,16 @@ func (c *Client) Close() error {
 // GetLostPackets returns number of packets lost during client lifecycle
 func (c *Client) GetLostPackets() int64 {
 	return atomic.LoadInt64(&c.lostPacketsOverall)
+}
+
+// GetSendQueueLen returns last send queue length
+func (c *Client) GetSendQueueLen() int64 {
+	return c.sendQueueLen
+}
+
+// GetBufPoolLen returns last buffer pool length
+func (c *Client) GetBufPoolLen() int64 {
+	return c.bufPoolLen
 }
 
 // Incr increments a counter metric

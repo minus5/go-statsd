@@ -60,4 +60,11 @@ func (c *Client) flushBuf(length int) {
 		atomic.AddInt64(&c.lostPacketsOverall, 1)
 	}
 
+	c.saveQueueStats()
+}
+
+// saveQueueStats stores queue stats
+func (c *Client) saveQueueStats() {
+	atomic.StoreInt64(&c.bufPoolLen, int64(len(c.bufPool)))
+	atomic.StoreInt64(&c.sendQueueLen, int64(len(c.sendQueue)))
 }
