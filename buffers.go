@@ -67,5 +67,9 @@ func (c *Client) flushBuf(length int) {
 // saveQueueStats stores queue stats
 func (c *Client) saveQueueStats() {
 	atomic.StoreInt64(&c.bufPoolLen, int64(len(c.bufPool)))
-	atomic.StoreInt64(&c.sendQueueLen, int64(len(c.sendQueue)))
+	// interrested in max queue length over period of time
+	qLen := int64(len(c.sendQueue))
+	if qLen > c.sendQueueLen {
+		atomic.StoreInt64(&c.sendQueueLen, qLen)
+	}
 }

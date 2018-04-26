@@ -123,9 +123,11 @@ func (c *Client) GetLostBytes() int64 {
 	return atomic.SwapInt64(&c.lostBytes, 0)
 }
 
-// GetSendQueueLen returns last send queue length
+// GetSendQueueLen returns last max send queue length
+//
+// NOTE: resets value to 0 on read
 func (c *Client) GetSendQueueLen() int64 {
-	return c.sendQueueLen
+	return atomic.SwapInt64(&c.sendQueueLen, 0)
 }
 
 // GetBufPoolLen returns last buffer pool length
